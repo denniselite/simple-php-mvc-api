@@ -6,7 +6,7 @@ class Controller_404 extends Controller {
         
     }
     
-    public function Action_index() {
+    public function Action_404() {
         $view = new View();
         $view->generate('404');
     }
