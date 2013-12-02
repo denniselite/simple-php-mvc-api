@@ -21,10 +21,9 @@ class Route {
         if (!empty($route_array[2])) {
             $controller_name = $route_array[2];
         }
-        
-        $model_name = 'Model_'.$model_name;
+        $action_name = 'Action_'.$controller_name;
+        $model_name = 'Model_'.$controller_name;
         $controller_name = 'Controller_'.$controller_name;
-        $action_name = 'Action_'.$action_name;
         
         if (file_exists(Q_PATH.'/application/models/'.$model_name.'.php')) {
             include Q_PATH.'/application/models/'.$model_name.'.php';

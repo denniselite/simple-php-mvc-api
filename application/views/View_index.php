@@ -1,3 +1,3 @@
 <h1>
-    Привет, <?php echo $data[0]; ?>
+    Привет, <?php echo $data; ?>
 </h1>
