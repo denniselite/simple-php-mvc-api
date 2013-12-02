@@ -3,8 +3,9 @@
 class Model_subscribers extends Model{
     
     function __construct() {
-        Model::ConnectToDB();
+        
     }
+    
     public function getSubscriber($id_subs){
         $subscribers_assoc =  mysql_fetch_assoc(mysql_query("SELECT * FROM subscribers WHERE id = '$id_subs'"));
         $data = array ('id' => $subscribers_assoc['id'],

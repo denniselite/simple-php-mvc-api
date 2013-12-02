@@ -13,6 +13,8 @@ class Model {
         @mysql_connect($host,$user,$password) or die (mysql_error());
         @mysql_select_db($db) or die(mysql_error());
     }
+    
+    
     public function out_data($request_data){
   	if ($request_data){
   		$json_out = array('status' => 0, 'result' => $request_data);

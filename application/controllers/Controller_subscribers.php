@@ -7,8 +7,14 @@ class Controller_subscribers extends Controller{
     }
     public function Action_subscribers(){
         $model = new Model_subscribers();
+        Model::ConnectToDB();
         $view = new View();
-        $view->generate('subscribers',$model->getSubscribers());
+        if ((Request::method() == "GET"))
+        {
+            $view->generate('subscribers',$model->getSubscribers());
+        } else {
+            $view->generate('subscribers','400 - Bad Request');
+        }
     }
 }
 

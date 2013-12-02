@@ -40,5 +40,5 @@ class Route {
         $controller = new $controller_name();
         $controller->$action_name();
     }
-
+    
 }
