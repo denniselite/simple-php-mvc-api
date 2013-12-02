@@ -33,7 +33,7 @@ class Route {
             include Q_PATH.'/application/controllers/'.$controller_name.'.php';
         }
         else {
-            header('Location: /404');
+            header('Location: /400');
             exit;
         }
         
