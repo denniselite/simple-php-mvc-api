@@ -10,18 +10,19 @@ class Route {
         $controller_name = 'index';
         $action_name = 'index';
         $model_name = 'index';
+        $id = '';
         $action_parameters = array();
         
         $route_array = explode('/', $_SERVER['REQUEST_URI']);
         
-        if (!empty($route_array[1])) {
-            $controller_name = $route_array[1];
-        }
-        
         if (!empty($route_array[2])) {
             $controller_name = $route_array[2];
         }
-        $action_name = 'Action_'.$controller_name;
+        
+        if (!empty($route_array[3])) {
+            $id = $route_array[3];
+        }
+        $action_name = 'Action_'.$action_name;
         $model_name = 'Model_'.$controller_name;
         $controller_name = 'Controller_'.$controller_name;
         
@@ -33,12 +34,12 @@ class Route {
             include Q_PATH.'/application/controllers/'.$controller_name.'.php';
         }
         else {
-            header('Location: /400');
+            header('Location: /v1/400');
             exit;
         }
         
         $controller = new $controller_name();
-        $controller->$action_name();
+        $controller->$action_name($id);
     }
     
 }
