@@ -8,6 +8,7 @@ class Model_subscribers extends Model{
     
     public function getSubscriber($id_subs){
         $subscribers_assoc =  mysql_fetch_assoc(mysql_query("SELECT * FROM subscribers WHERE id = '$id_subs'"));
+        if ($subscribers_assoc == '') return Model::out_error('401');
         $data = array ('id' => $subscribers_assoc['id'],
                        'time' => $subscribers_assoc['time'],
                        'e-mail' => $subscribers_assoc['e-mail']

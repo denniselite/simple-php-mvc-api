@@ -3,8 +3,16 @@
 class Model {
 
     function __construct() {
-        
+        include Q_PATH.'/application/models/Model_errors.php';
+        include Q_PATH.'/application/controllers/Controller_errors.php';
     }
+    
+    public function out_error($id){
+        $errors = new Controller_errors();
+        $errors->Action_index($id);
+    }
+    
+    public $status;
     public function ConnectToDB(){
         $host = "localhost";
         $user = "root";
@@ -17,9 +25,10 @@ class Model {
     
     public function out_data($request_data){
   	if ($request_data){
-  		$json_out = array('status' => 0, 'result' => $request_data);
+  		$json_out = array('status' => '200',
+                                  'result' => $request_data);
   	} else{
-  		$json_out = array('status' => 1);
+  		$json_out = array('status' => $this->status);
   	}
   	return json_encode($json_out);
   }

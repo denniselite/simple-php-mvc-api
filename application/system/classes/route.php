@@ -24,7 +24,16 @@ class Route {
         }
         $action_name = 'Action_'.$action_name;
         $model_name = 'Model_'.$controller_name;
-        $controller_name = 'Controller_'.$controller_name;
+        if ($controller_name == "errors"){
+            header('Location: /v1/400');
+            exit;
+        }
+        if ($controller_name == '400'){
+            $controller_name = "Controller_errors";
+            $model_name = "Model_errors";
+            $id = "400";
+        }
+                else $controller_name = 'Controller_'.$controller_name;
         
         if (file_exists(Q_PATH.'/application/models/'.$model_name.'.php')) {
             include Q_PATH.'/application/models/'.$model_name.'.php';

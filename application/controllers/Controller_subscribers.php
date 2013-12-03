@@ -9,6 +9,7 @@ class Controller_subscribers extends Controller{
     private $view;
     
     function __construct() {
+        parent::__construct();
         $this->model = new Model_subscribers();
         $this->model->ConnectToDB();
         $this->view = new View();
@@ -19,10 +20,10 @@ class Controller_subscribers extends Controller{
     public function Action_index($id){
         if ($id==''){
             if ($this->method == "GET") $this->Action_subscribers();
-                else $this->view->generate('subscribers','Method '.$this->method. ' does not support of this controller');
+                else Controller::out_error("402");
         } else {
             if ($this->method == "GET") $this->Action_subscriber($id);
-                else $this->view->generate('subscribers','Method '.$this->method. ' does not support of this controller');
+                else Controller::out_error("402");
         }
     }
 
