@@ -6,7 +6,7 @@ class Controller_400 extends Controller {
         
     }
     
-    public function Action_400() {
+    public function Action_index() {
         $view = new View();
         $view->generate('400');
     }
