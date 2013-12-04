@@ -12,7 +12,6 @@ Class Request {
         return $this->data;
     }
     
-
     public function method() {
         if($_SERVER['REQUEST_METHOD'] == 'PUT'){
             $this->data = file_get_contents('php://input');
@@ -20,6 +19,7 @@ Class Request {
         }
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $this->data = file_get_contents('php://input');
+            $this->data = pack("A*",$this->data);
             return "POST";
         }
         if($_SERVER['REQUEST_METHOD'] == 'DELETE'){

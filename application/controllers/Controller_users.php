@@ -19,11 +19,12 @@ class Controller_users extends Controller {
         $this->data_method = $this->request->data();
     }
     
+    
     public function Action_index($id) {
             if ($id==""){
                 if ($this->method == "POST"){
                     $this->create_user();
-                }
+                } else
                 if ($this->method == "GET"){
                     $this->get_all_users();
                 } else {
@@ -51,6 +52,7 @@ class Controller_users extends Controller {
         $pass = $user_info['pass'];
         return 
             $this->view->generate('users', $this->model->create_user($e_mail, $pass));
+            //$this->view->generate('users', $this->data_method);
     }
     
     private function delete_user($id){
