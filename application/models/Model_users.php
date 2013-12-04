@@ -14,7 +14,7 @@ Class Model_users extends Model{
         if ($user_info == ''){
             $this->new_query =  mysql_query("INSERT INTO users (email,pass) VALUES ('$email','$pass')");
                 if ($this->new_query){
-                    return Model::out_error('200');
+                    return Model::out_data(Model::create_sid($email));
                 } else {
                     return Model::out_error('300');
                 }
@@ -24,10 +24,12 @@ Class Model_users extends Model{
     }
     
     public function delete_user($uid) {
-        $this->new_query = mysql_query("DELETE FROM users WHERE uid = '$uid'");
-        if ($this->new_query){
+        $this->new_query =  mysql_query("SELECT * FROM users WHERE uid = '$uid'");
+        $user_info = mysql_fetch_assoc($this->new_query);
+        if ($user_info != ""){
+            $this->new_query = mysql_query("DELETE FROM users WHERE uid = '$uid'");
             return Model::out_error('200');
-        } else {
+        } else{
             return Model::out_error('300');
         }
     }
@@ -42,25 +44,22 @@ Class Model_users extends Model{
         }
     }
     
-    public function get_all_users(){
-        $count_all_assoc = mysql_fetch_assoc(mysql_query("SELECT count(1) cnt FROM users"));
-	$n = $count_all_assoc['cnt'];
-        if ($n>0){
-	$data = array();
-	for ($i=3; $i<($n+3) ; $i++) { 
-            $users_assoc =  mysql_fetch_assoc(mysql_query("SELECT * FROM users WHERE uid = '$i'"));
-            $user = array ('uid' => $users_assoc['uid'],
-                       'e-mail' => $users_assoc['email']
-            );
-            array_push($data, $user);
-	}
-        return Model::out_data($data);
+    public function get_all_users() {
+        $this->new_query = mysql_query("SELECT * FROM users");
+        $users = array ();
+        while ($row = mysql_fetch_array($this->new_query)) {
+            $user = array ('uid' => $row['uid'],
+                       'e-mail' => $row['email']
+                    );
+                    array_push($users, $user);
         }
-        else {
-            return Model::out_error('401');
+        if ($users !=''){
+            return Model::out_data($users);
+        } else {
+            return Model::out_error('400');
         }
     }
-
+    
     public function update_profile($uid) {
         
     }
