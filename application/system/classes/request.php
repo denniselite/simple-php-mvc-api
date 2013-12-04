@@ -6,7 +6,7 @@ Class Request {
         
     }
     
-    var $data = array();
+    public $data;
     
     public function data(){
         return $this->data;
