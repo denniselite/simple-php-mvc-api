@@ -8,6 +8,7 @@ class Controller_users extends Controller {
     private $data_method;
     private $model;
     private $view;
+    private $post_data;
     
     function __construct() {
         parent::__construct();
@@ -17,6 +18,7 @@ class Controller_users extends Controller {
         $this->request = new Request();
         $this->method = $this->request->method();
         $this->data_method = $this->request->data();
+        $this->post_data = json_decode($this->data_method, TRUE);
     }
     
     
@@ -47,17 +49,20 @@ class Controller_users extends Controller {
         $this->view->generate('users', $this->model->get_all_users());
     }
     private function create_user(){
-        $user_info = json_decode($this->data_method, TRUE);
-        $e_mail = $user_info['e-mail']; 
-        $pass = $user_info['pass'];
         return 
-            $this->view->generate('users', $this->model->create_user($e_mail, $pass));
+            $this->view->generate(
+                    'users', 
+                    $this->model->create_user(
+                            $this->post_data['e-mail'], 
+                            $this->post_data['pass']
+                            )
+                    );
             //$this->view->generate('users', $this->data_method);
     }
     
     private function delete_user($id){
         return
-            $this->view->generate('users', $this->model->delete_user($id));
+            $this->view->generate('users', $this->model->delete_user($id,$this->post_data['sid']));
     }
     
     private function get_profile($id){

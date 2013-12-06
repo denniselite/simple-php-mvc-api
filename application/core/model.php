@@ -24,9 +24,9 @@ class Model {
         @mysql_select_db($db) or die(mysql_error());
     }
     
-    public function sid_check(){
-        $user_id_assoc = mysql_fetch_array(mysql_query("SELECT user_id FROM sesions WHERE session_id = '$this->sid'"));
-        if (!$user_id_assoc){
+    public function sid_check($uid,$sid){
+        $user_id_assoc = mysql_fetch_array(mysql_query("SELECT uid FROM sessions WHERE sid = '$sid'"));
+        if ((!$user_id_assoc)||($user_id_assoc['uid'])!=$uid){
 		return false;
 	}
 	else {

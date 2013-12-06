@@ -7,7 +7,8 @@ Class Model_users extends Model{
     function __construct() {
         
     }
-    
+
+
     public function create_user($email,$pass) {
         $this->new_query =  mysql_query("SELECT * FROM users WHERE email = '$email'");
         $user_info = mysql_fetch_assoc($this->new_query);
@@ -23,14 +24,20 @@ Class Model_users extends Model{
         }
     }
     
-    public function delete_user($uid) {
-        $this->new_query =  mysql_query("SELECT * FROM users WHERE uid = '$uid'");
-        $user_info = mysql_fetch_assoc($this->new_query);
-        if ($user_info != ""){
-            $this->new_query = mysql_query("DELETE FROM users WHERE uid = '$uid'");
-            return Model::out_error('200');
-        } else{
-            return Model::out_error('300');
+    public function delete_user($uid,$sid) {
+        if ($sid == '') return Model::out_error('301'); 
+        if (Model::sid_check($uid,$sid)){
+            $this->new_query =  mysql_query("SELECT * FROM users WHERE uid = '$uid'");
+            $user_info = mysql_fetch_assoc($this->new_query);
+            if ($user_info != ""){
+                $this->new_query = mysql_query("DELETE FROM users WHERE uid = '$uid'");
+                $this->new_query = mysql_query("DELETE FROM sessions WHERE uid = '$uid'");
+                return Model::out_error('200');
+            } else{
+                return Model::out_error('300');
+            }
+        } else {
+            return Model::out_error('301');
         }
     }
     
