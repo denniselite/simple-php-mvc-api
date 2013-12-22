@@ -22,6 +22,7 @@ class Model {
         $db = "roadster";
         @mysql_connect($host,$user,$password) or die (mysql_error());
         @mysql_select_db($db) or die(mysql_error());
+        mysql_set_charset("utf8");
     }
     
     public function sid_check($uid,$sid){

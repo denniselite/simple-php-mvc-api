@@ -47,16 +47,20 @@ class Controller_users extends Controller {
     
     private function get_users() {
         $page = $this->post_data['page'];
-        $page = 1;
         $this->view->generate('users', $this->model->get_users(--$page));
     }
     private function create_user(){
         return 
-            $this->view->generate(
+        $this->view->generate(
                     'users', 
                     $this->model->create_user(
                             $this->post_data['e-mail'], 
-                            $this->post_data['pass']
+                            $this->post_data['pass'],
+                            $this->post_data['firstname'],
+                            $this->post_data['secondname'],
+                            $this->post_data['about'],
+                            $this->post_data['partner'],
+                            FALSE
                             )
                     );
             //$this->view->generate('users', $this->data_method);

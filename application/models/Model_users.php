@@ -17,14 +17,14 @@ Class Model_users extends Model{
             $about,
             $partner,
             $approved) {
+        $approved = FALSE;
         $time_reg = date('d-m-Y, H:i:s');
         $this->new_query =  mysql_query("SELECT * FROM users WHERE email = '$email'");
         $user_info = mysql_fetch_assoc($this->new_query);
         if ($user_info == ''){
-            $this->new_query =  mysql_query("INSERT INTO users ("
+            $this->new_query =  mysql_query("INSERT INTO users (" 
                     . "email,"
                     . "pass,"
-                    . "time-reg,"
                     . "firstname,"
                     . "secondname,"
                     . "about,"
@@ -34,7 +34,6 @@ Class Model_users extends Model{
                     . "VALUES ("
                     . "'$email',"
                     . "'$pass',"
-                    . "'$time_reg',"
                     . "'$firstname',"
                     . "'$secondname',"
                     . "'$about',"
@@ -69,7 +68,7 @@ Class Model_users extends Model{
     }
     
     public function get_profile($uid) {
-        $this->new_query = mysql_query("SELECT uid,email,time-reg,id-vk,id-fb,firstname,secondname,avatar,about,partner,approved FROM users WHERE uid = '$uid'");
+        $this->new_query = mysql_query("SELECT uid, email, time_reg, id_vk, id_fb, firstname, secondname, avatar, about, partner, approved FROM users WHERE uid = '$uid'");
         $user_info = mysql_fetch_assoc($this->new_query);
         if ($user_info !=''){
             return Model::out_data($user_info);
@@ -112,8 +111,8 @@ Class Model_users extends Model{
             $this->new_query =  mysql_query("INSERT INTO users ("
                     . "email,"
                     . "pass,"
-                    . "id-vk,"
-                    . "id-fb,"
+                    . "id_vk,"
+                    . "id_fb,"
                     . "firstname,"
                     . "secondname,"
                     . "avatar,"
