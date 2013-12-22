@@ -3,17 +3,44 @@
 Class Model_users extends Model{
     
     private $new_query;
-    
-    function __construct() {
+    private $page_size = 20;
+            function __construct() {
         
     }
 
 
-    public function create_user($email,$pass) {
+    public function create_user(
+            $email,
+            $pass,
+            $firstname,
+            $secondname,
+            $about,
+            $partner,
+            $approved) {
+        $time_reg = date('d-m-Y, H:i:s');
         $this->new_query =  mysql_query("SELECT * FROM users WHERE email = '$email'");
         $user_info = mysql_fetch_assoc($this->new_query);
         if ($user_info == ''){
-            $this->new_query =  mysql_query("INSERT INTO users (email,pass) VALUES ('$email','$pass')");
+            $this->new_query =  mysql_query("INSERT INTO users ("
+                    . "email,"
+                    . "pass,"
+                    . "time-reg,"
+                    . "firstname,"
+                    . "secondname,"
+                    . "about,"
+                    . "partner,"
+                    . "approved"
+                    . ") "
+                    . "VALUES ("
+                    . "'$email',"
+                    . "'$pass',"
+                    . "'$time_reg',"
+                    . "'$firstname',"
+                    . "'$secondname',"
+                    . "'$about',"
+                    . "'$partner',"
+                    . "'$approved')"
+                    );
                 if ($this->new_query){
                     return Model::out_data(Model::create_sid($email));
                 } else {
@@ -42,7 +69,7 @@ Class Model_users extends Model{
     }
     
     public function get_profile($uid) {
-        $this->new_query = mysql_query("SELECT uid,email FROM users WHERE uid = '$uid'");
+        $this->new_query = mysql_query("SELECT uid,email,time-reg,id-vk,id-fb,firstname,secondname,avatar,about,partner,approved FROM users WHERE uid = '$uid'");
         $user_info = mysql_fetch_assoc($this->new_query);
         if ($user_info !=''){
             return Model::out_data($user_info);
@@ -51,8 +78,9 @@ Class Model_users extends Model{
         }
     }
     
-    public function get_all_users() {
-        $this->new_query = mysql_query("SELECT * FROM users");
+    public function get_users($page) {
+        $count = $this->page_size*$page;
+        $this->new_query = mysql_query("SELECT * FROM users ORDER BY uid DESC LIMIT ".$count.", 20");
         $users = array ();
         while ($row = mysql_fetch_array($this->new_query)) {
             $user = array ('uid' => $row['uid'],
@@ -67,8 +95,52 @@ Class Model_users extends Model{
         }
     }
     
-    public function update_profile($uid) {
-        
+    public function update_user(
+            $email,
+            $pass,
+            $id_vk,
+            $id_fb,
+            $firstname,
+            $secondname,
+            $avatar,
+            $about,
+            $partner,
+            $approved) {
+        $this->new_query =  mysql_query("SELECT * FROM users WHERE email = '$email'");
+        $user_info = mysql_fetch_assoc($this->new_query);
+        if ($user_info == ''){
+            $this->new_query =  mysql_query("INSERT INTO users ("
+                    . "email,"
+                    . "pass,"
+                    . "id-vk,"
+                    . "id-fb,"
+                    . "firstname,"
+                    . "secondname,"
+                    . "avatar,"
+                    . "about,"
+                    . "partner,"
+                    . "approved"
+                    . ") "
+                    . "VALUES ("
+                    . "'$email',"
+                    . "'$pass',"
+                    . "'$id_vk',"
+                    . "'$id_fb',"
+                    . "'$firstname',"
+                    . "'$secondname',"
+                    . "'$avatar',"
+                    . "'$about',"
+                    . "'$partner',"
+                    . "'$approved')"
+                    );
+                if ($this->new_query){
+                    return Model::out_data(Model::create_sid($email));
+                } else {
+                    return Model::out_error('300');
+                }
+        } else{
+                return Model::out_error('300');
+        }
     }
     
 }

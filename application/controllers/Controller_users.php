@@ -28,7 +28,7 @@ class Controller_users extends Controller {
                     $this->create_user();
                 } else
                 if ($this->method == "GET"){
-                    $this->get_all_users();
+                    $this->get_users();
                 } else {
                     Controller::out_error("402");
                     }
@@ -45,8 +45,10 @@ class Controller_users extends Controller {
             }
     }
     
-    private function get_all_users() {
-        $this->view->generate('users', $this->model->get_all_users());
+    private function get_users() {
+        $page = $this->post_data['page'];
+        $page = 1;
+        $this->view->generate('users', $this->model->get_users(--$page));
     }
     private function create_user(){
         return 
