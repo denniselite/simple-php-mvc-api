@@ -7,6 +7,7 @@ class Controller {
         include Q_PATH.'/application/controllers/Controller_errors.php';
     }
     
+    
     public function out_error($id){
         $errors = new Controller_errors();
         $errors->Action_index($id);
