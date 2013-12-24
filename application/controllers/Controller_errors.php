@@ -4,6 +4,7 @@ class Controller_errors extends Controller {
 
     private $view;
     private $model;
+    
     function __construct() {
         $this->view = new View();
         $this->model = new Model_errors();
