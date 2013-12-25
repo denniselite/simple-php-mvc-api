@@ -20,7 +20,7 @@ Class Model_users extends Model{
         if (!($user_info instanceof stdClass)){
             $this->STH = 
                 $this->DBH->prepare("INSERT INTO users (email, pass, firstname, secondname, about, partner, approved, device_token) "
-                    . "VALUES (:email, :pass, :firstname, :secondname, :about, :partner, 'FALSE', :device_token)");    
+                    . "VALUES (:email, :pass, :firstname, :secondname, :about, :partner, 'TRUE', :device_token)");    
             if ($this->STH->execute((array)$data)){
                     return $this->out_data($this->create_sid($data->email,$data->device_token));
                 } else {
